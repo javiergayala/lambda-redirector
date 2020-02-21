@@ -1,7 +1,7 @@
 """Looks up a requested URI in DynamoDB and returns a redirect.
 
 Returns:
-    str -- result of the run
+    dict -- response to return
 
 """
 import os
