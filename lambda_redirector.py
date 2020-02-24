@@ -1,7 +1,7 @@
 """Looks up a requested URI in DynamoDB and returns a redirect.
 
 Returns:
-    dict -- response to return
+    str -- result of the run
 
 """
 import os
@@ -46,11 +46,11 @@ else:
     DEFAULT_REDIRECT_CODE = 301
 
 if DEFAULT_REDIRECT_CODE == 301:
-    DEFAULT_REDIRECT_DESC = "301 MOVED PERMANENTLY"
+    DEFAULT_REDIRECT_DESC = "301 Moved Permanently"
 elif DEFAULT_REDIRECT_CODE == 302:
-    DEFAULT_REDIRECT_DESC = "302 FOUND"
+    DEFAULT_REDIRECT_DESC = "302 Found"
 else:
-    DEFAULT_REDIRECT_DESC = "%s UNKNOWN" % DEFAULT_REDIRECT_CODE
+    DEFAULT_REDIRECT_DESC = "%s Unknown" % DEFAULT_REDIRECT_CODE
 
 if "DEBUG" in os.environ:
     DEBUG = str2bool(os.environ["DEBUG"])
@@ -117,9 +117,11 @@ def lambda_handler(event, context):
         "statusCode": DEFAULT_REDIRECT_CODE,
         "statusDescription": DEFAULT_REDIRECT_DESC,
         "isBase64Encoded": False,
-        "headers": {"Content-Type": "text/html"},
-        "Location": "%s://%s%s"
-        % (DEFAULT_HTTP_SCHEME, DEFAULT_DESTINATION_HOST, DEFAULT_DESTINATION_PATH),
+        "headers": {
+            "Content-Type": "text/html",
+            "Location": "%s://%s%s"
+            % (DEFAULT_HTTP_SCHEME, DEFAULT_DESTINATION_HOST, DEFAULT_DESTINATION_PATH),
+        },
     }
     if DEBUG:
         print("===== lambda_handler() DEBUG BEGIN =====")
@@ -151,7 +153,7 @@ def lambda_handler(event, context):
             else:
                 print("Redirect Location to return to ALB: %s" % redirect)
         if redirect:
-            httpResponse["Location"] = redirect
+            httpResponse["headers"]["Location"] = redirect
 
     if DEBUG:
         print("FINAL: %s" % httpResponse)
