@@ -85,7 +85,7 @@ def lookup_redirect(hostIn=None, pathIn=None):
             update_response = ddb.update_item(
                 TableName=DYNAMO_DB_TABLE,
                 Key={"Site": {"S": hostIn}, "URI": {"S": pathIn}},
-                UpdateExpression="set HitCount = HitCount + :i, LastHit = :l",
+                UpdateExpression="ADD HitCount :i SET LastHit = :l",
                 ExpressionAttributeValues={
                     ":i": {"N": "1"},
                     ":l": {"S": ("%s" % TIME)},
