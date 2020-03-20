@@ -26,6 +26,14 @@ The Lambda function expects there to be a DynamoDB Table available for use. The 
 }
 ```
 
+## Deploying function to Lambda
+
+The included Makefile can generate a zipfile package with the necessary files included for uploading to Lambda. The resulting file will be available at `dist/lambda_redirector.zip`.
+
+```bash
+make dist
+```
+
 ## Importing Data
 
 The `lambda_redirect_importer.py` file can be used for a Lambda Function that is triggered whenever a particular S3 location is updated with a new/refreshed file. It can be configured to process a CSV file with the following format:
