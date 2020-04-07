@@ -20,20 +20,32 @@ import os
 from datetime import datetime
 from redirect_utils import str2bool
 
-DYNAMO_DB_ARN = os.environ["DYNAMO_DB_ARN"]
-DYNAMO_DB_TABLE = os.environ["DYNAMO_DB_TABLE"]
-DEFAULT_DESTINATION_HOST = os.environ["DEFAULT_DESTINATION_HOST"]
-DEFAULT_DESTINATION_PATH = os.environ["DEFAULT_DESTINATION_PATH"]
-
-if "DEFAULT_HTTP_SCHEME" in os.environ:
-    DEFAULT_HTTP_SCHEME = os.environ["DEFAULT_HTTP_SCHEME"]
-else:
-    DEFAULT_HTTP_SCHEME = "https"
-
-if "DEFAULT_REDIRECT_CODE" in os.environ:
-    DEFAULT_REDIRECT_CODE = int(os.environ["DEFAULT_REDIRECT_CODE"])
-else:
-    DEFAULT_REDIRECT_CODE = 301
+DYNAMO_DB_ARN = os.environ["DYNAMO_DB_ARN"] if "DYNAMO_DB_ARN" in os.environ else None
+DYNAMO_DB_TABLE = (
+    os.environ["DYNAMO_DB_TABLE"] if "DYNAMO_DB_TABLE" in os.environ else None
+)
+DEFAULT_DESTINATION_HOST = (
+    os.environ["DEFAULT_DESTINATION_HOST"]
+    if "DEFAULT_DESTINATION_HOST" in os.environ
+    else None
+)
+DEFAULT_DESTINATION_PATH = (
+    os.environ["DEFAULT_DESTINATION_PATH"]
+    if "DEFAULT_DESTINATION_PATH" in os.environ
+    else None
+)
+DEFAULT_HTTP_SCHEME = (
+    os.environ["DEFAULT_HTTP_SCHEME"]
+    if "DEFAULT_HTTP_SCHEME" in os.environ
+    else "https"
+)
+DEFAULT_REDIRECT_CODE = (
+    int(os.environ["DEFAULT_REDIRECT_CODE"])
+    if "DEFAULT_REDIRECT_CODE" in os.environ
+    else 301
+)
+PATH_STRIP = os.environ["PATH_STRIP"] if "PATH_STRIP" in os.environ else False
+DEBUG = os.environ["DEBUG"] if "DEBUG" in os.environ else False
 
 if DEFAULT_REDIRECT_CODE == 301:
     DEFAULT_REDIRECT_DESC = "301 Moved Permanently"
@@ -41,15 +53,5 @@ elif DEFAULT_REDIRECT_CODE == 302:
     DEFAULT_REDIRECT_DESC = "302 Found"
 else:
     DEFAULT_REDIRECT_DESC = "%s Unknown" % DEFAULT_REDIRECT_CODE
-
-if "PATH_STRIP" in os.environ:
-    PATH_STRIP = os.environ["PATH_STRIP"]
-else:
-    PATH_STRIP = False
-
-if "DEBUG" in os.environ:
-    DEBUG = str2bool(os.environ["DEBUG"])
-else:
-    DEBUG = False
 
 TIME = datetime.strftime(((datetime.utcnow())), "%Y-%m-%d %H:%M:%S")
