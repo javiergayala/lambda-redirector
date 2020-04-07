@@ -44,3 +44,22 @@ def strip_path(path_to_strip="", uri=""):
         {str} -- URI with path stripped out
     """
     return re.sub(path_to_strip, "/", uri)
+
+
+def construct_redirect_location(host="", path="", scheme="https"):
+    """Construct a redirect from a given host, path and scheme.
+
+    Keyword Arguments:
+        host {str} -- host to redirect to (default: {""})
+        path {str} -- uri to use in the redirect (default: {""})
+        scheme {str} -- HTTP scheme to use (default: {"https"})
+
+    Returns:
+        {str} -- redirect location
+    """
+    new_redirect = "%s://%s%s" % (scheme, host, path)
+    if config.DEBUG:
+        print("===== construct_redirect() DEBUG BEGIN =====")
+        print("new_redirect: %s" % new_redirect)
+        print("===== construct_redirect() DEBUG END =====")
+    return new_redirect

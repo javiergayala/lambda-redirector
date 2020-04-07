@@ -13,7 +13,12 @@ import boto3
 from botocore.exceptions import ClientError
 import config
 
-from redirect_utils import str2bool, sanitize_path, strip_path
+from redirect_utils import (
+    str2bool,
+    sanitize_path,
+    strip_path,
+    construct_redirect_location,
+)
 
 try:
     ddb = boto3.client("dynamodb")
@@ -103,7 +108,12 @@ def lambda_handler(event, context):
     if config.PATH_STRIP:
         if config.DEBUG:
             print("Skipping DynamoDB Interaction")
-        httpResponse["headers"]["Location"] = strip_path(config.PATH_STRIP, pathIn)
+        _path = strip_path(config.PATH_STRIP, pathIn)
+        httpResponse["headers"]["Location"] = construct_redirect_location(
+            host=config.DEFAULT_DESTINATION_HOST,
+            path=_path,
+            scheme=config.DEFAULT_HTTP_SCHEME,
+        )
     else:
         try:
             redirect = lookup_redirect(hostIn, pathIn)
