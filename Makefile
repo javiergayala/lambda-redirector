@@ -7,6 +7,7 @@ DISTDIR = ${ROOT_DIR}/dist
 LAMBDASCRIPT = lambda_redirector.py
 REDIRECTIMPORTER = lambda_redirect_importer.py
 REDIRECTUTILS = redirect_utils.py
+CONFIGFILE = config.py
 LAMBDAZIPFILE = lambda_redirector.zip
 
 dist: scaffolding copy-py-script
@@ -14,6 +15,7 @@ dist: scaffolding copy-py-script
 	@printf "\nLambda uploadable zip file created at ${DISTDIR}/${LAMBDAZIPFILE}\n"
 
 copy-py-script:
+	cp ${BASEDIR}/${CONFIGFILE} ${BUILDDIR}
 	cp ${BASEDIR}/${LAMBDASCRIPT} ${BUILDDIR}
 	cp ${BASEDIR}/${REDIRECTIMPORTER} ${BUILDDIR}
 	cp ${BASEDIR}/${REDIRECTUTILS} ${BUILDDIR}
