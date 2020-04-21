@@ -8,6 +8,7 @@ location.
 Configure these environment variables in your Lambda environment
 1. DYNAMO_DB_ARN - The ARN of the DynamoDB instance holding the redirect data
 2. DYNAMO_DB_TABLE - The name of the DynamoDB table
+3. DEFAULT_CACHE_MAX_AGE - Number of seconds to allow 301's to be cached
 3. DEFAULT_DESTINATION_HOST - The host to redirect to if no matches are found
 4. DEFAULT_DESTINATION_PATH - The path to redirect to if no matches are found
 5. DEFAULT_HTTP_SCHEME - http or https (defaults to https if not defined)
@@ -23,6 +24,11 @@ from redirect_utils import str2bool
 DYNAMO_DB_ARN = os.environ["DYNAMO_DB_ARN"] if "DYNAMO_DB_ARN" in os.environ else None
 DYNAMO_DB_TABLE = (
     os.environ["DYNAMO_DB_TABLE"] if "DYNAMO_DB_TABLE" in os.environ else None
+)
+DEFAULT_CACHE_MAX_AGE = (
+    os.environ["DEFAULT_CACHE_MAX_AGE"]
+    if "DEFAULT_CACHE_MAX_AGE" in os.environ
+    else None
 )
 DEFAULT_DESTINATION_HOST = (
     os.environ["DEFAULT_DESTINATION_HOST"]

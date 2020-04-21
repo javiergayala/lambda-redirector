@@ -88,6 +88,10 @@ def lambda_handler(event, context):
             ),
         },
     }
+    if config.DEFAULT_REDIRECT_CODE == 301 and config.DEFAULT_CACHE_MAX_AGE is not None:
+        httpResponse["headers"]["Cache-Control"] = (
+            "max-age=%s, public" % config.DEFAULT_CACHE_MAX_AGE
+        )
     if config.DEBUG:
         print("===== lambda_handler() DEBUG BEGIN =====")
         print("Event: %s" % event)
